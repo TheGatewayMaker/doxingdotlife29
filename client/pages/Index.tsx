@@ -697,10 +697,10 @@ export default function Index() {
                       </div>
                     )}
                     <div className="p-5">
-                      <h3 className="font-bold text-foreground text-base line-clamp-2 mb-3 group-hover:text-accent transition-colors">
+                      <h3 className="font-bold text-white text-base line-clamp-2 mb-3 group-hover:text-blue-400 transition-colors">
                         {post.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                      <p className="text-sm text-gray-400 line-clamp-3 mb-4">
                         {post.description}
                       </p>
                       <div className="flex flex-wrap gap-2">
