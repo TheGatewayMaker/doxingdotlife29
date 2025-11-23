@@ -1,44 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Menu, X, LogOut } from "lucide-react";
 import { HomeIcon } from "@/components/Icons";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("auth_token");
-    setIsAuthenticated(!!token);
-
-    const handleStorageChange = () => {
-      const updatedToken = localStorage.getItem("auth_token");
-      setIsAuthenticated(!!updatedToken);
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
 
   const closeSidebar = () => setIsSidebarOpen(false);
 
   const handleLogout = async () => {
-    const token = localStorage.getItem("auth_token");
-    if (token) {
-      try {
-        await fetch("/api/auth/logout", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      } catch (error) {
-        console.error("Logout error:", error);
-      }
-    }
-    localStorage.removeItem("auth_token");
-    setIsAuthenticated(false);
+    await logout();
     closeSidebar();
     navigate("/");
   };
