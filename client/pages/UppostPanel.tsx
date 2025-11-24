@@ -136,11 +136,16 @@ export default function UppostPanel() {
     setUploading(true);
 
     try {
+      const idToken = await user?.getIdToken();
+      if (!idToken) {
+        throw new Error("Authentication token not available");
+      }
+
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${idToken}`,
         },
       });
 
@@ -150,9 +155,12 @@ export default function UppostPanel() {
 
       const data = await response.json();
       setUploadMessage("Post uploaded successfully!");
+      toast.success("Post uploaded successfully!");
       resetForm();
     } catch (error) {
-      setUploadError("Error uploading post. Please try again.");
+      const errorMsg = error instanceof Error ? error.message : "Error uploading post. Please try again.";
+      setUploadError(errorMsg);
+      toast.error(errorMsg);
       console.error("Upload error:", error);
     } finally {
       setUploading(false);
