@@ -20,7 +20,7 @@ const firebaseConfig = {
 
 // Check if Firebase config is valid
 const isFirebaseConfigValid = Object.values(firebaseConfig).every(
-  (val) => val && val !== undefined && val !== ""
+  (val) => val && val !== undefined && val !== "",
 );
 
 let app: any;
@@ -42,7 +42,7 @@ if (isFirebaseConfigValid) {
   }
 } else {
   console.warn(
-    "Firebase configuration is incomplete. Some features will be disabled. Please set all VITE_FIREBASE_* environment variables."
+    "Firebase configuration is incomplete. Some features will be disabled. Please set all VITE_FIREBASE_* environment variables.",
   );
 }
 
@@ -60,7 +60,7 @@ const AUTHORIZED_EMAILS = import.meta.env.VITE_AUTHORIZED_EMAILS
 export const signInWithGoogle = async (): Promise<User> => {
   if (!auth || !googleProvider) {
     throw new Error(
-      "Firebase authentication is not configured. Please set up Firebase environment variables."
+      "Firebase authentication is not configured. Please set up Firebase environment variables.",
     );
   }
 
