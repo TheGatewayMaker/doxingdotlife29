@@ -116,7 +116,7 @@ export default function SimpleMediaGallery({
         </svg>
         <h2 className="text-2xl font-bold">Attached Media</h2>
         <span className="ml-auto text-sm font-medium text-muted-foreground bg-muted px-3 py-1 rounded-full">
-          {mediaFiles.length} file{mediaFiles.length !== 1 ? "s" : ""}
+          {filteredMediaFiles.length} file{filteredMediaFiles.length !== 1 ? "s" : ""}
         </span>
       </div>
 
