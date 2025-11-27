@@ -4,6 +4,7 @@ import { Share2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SimpleMediaGallery from "@/components/SimpleMediaGallery";
+import NSFWWarningModal from "@/components/NSFWWarningModal";
 import { Post } from "@shared/api";
 import { GlobeIcon, MapPinIcon, ServerIcon } from "@/components/Icons";
 
@@ -14,6 +15,8 @@ export default function PostDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [thumbnailError, setThumbnailError] = useState(false);
+  const [showNSFWWarning, setShowNSFWWarning] = useState(false);
+  const [nsfwApproved, setNsfwApproved] = useState(false);
 
   useEffect(() => {
     const loadPost = async () => {
@@ -25,6 +28,9 @@ export default function PostDetail() {
 
         if (foundPost) {
           setPosts(foundPost);
+          if (foundPost.nsfw) {
+            setShowNSFWWarning(true);
+          }
         } else {
           setError("Post not found");
         }
