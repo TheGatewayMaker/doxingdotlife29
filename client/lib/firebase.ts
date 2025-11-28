@@ -54,10 +54,14 @@ if (authInitialized && app) {
   }
 }
 
-// Initialize Google Auth Provider
-const googleProvider = new GoogleAuthProvider();
-googleProvider.addScope("profile");
-googleProvider.addScope("email");
+// Initialize Google Auth Provider (only if auth is initialized)
+let googleProvider: GoogleAuthProvider | null = null;
+
+if (auth) {
+  googleProvider = new GoogleAuthProvider();
+  googleProvider.addScope("profile");
+  googleProvider.addScope("email");
+}
 
 // Authorized email domains/accounts
 const AUTHORIZED_EMAILS = import.meta.env.VITE_AUTHORIZED_EMAILS
