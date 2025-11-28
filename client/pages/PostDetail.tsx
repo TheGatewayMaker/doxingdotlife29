@@ -65,7 +65,7 @@ export default function PostDetail() {
 
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-white flex flex-col animate-fadeIn">
+      <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#1a1a1a] to-[#000000] text-white flex flex-col animate-fadeIn">
         <Header />
         <main className="flex-1 w-full flex items-center justify-center px-4">
           <div className="text-center">
@@ -73,12 +73,12 @@ export default function PostDetail() {
             <h2 className="text-3xl font-bold mb-4 text-white">
               {error || "Post not found"}
             </h2>
-            <p className="text-gray-400 mb-6 max-w-sm">
+            <p className="text-[#979797] mb-6 max-w-sm">
               The post you're looking for doesn't exist or has been removed.
             </p>
             <button
               onClick={() => navigate("/")}
-              className="px-6 py-3 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-600 transition-all shadow-md"
+              className="px-6 py-3 bg-[#0088CC] text-white font-semibold rounded-lg hover:bg-[#0077BB] transition-all shadow-md hover:shadow-lg active:scale-95"
             >
               ← Back to Home
             </button>
