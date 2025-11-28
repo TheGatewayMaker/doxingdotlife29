@@ -546,13 +546,13 @@ export default function AllPosts() {
                           {post.title}
                         </h3>
                         {post.nsfw && (
-                          <span className="inline-flex items-center gap-1 bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex-shrink-0 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1 bg-red-600 text-white px-2.5 py-1 rounded-md text-xs font-bold flex-shrink-0 whitespace-nowrap">
                             NSFW
                           </span>
                         )}
                       </div>
-                      <p className="text-sm line-clamp-3 mb-4 text-gray-400">
-                        {post.description}
+                      <p className="text-sm line-clamp-3 mb-4 text-[#979797]">
+                        {post.description.replace(/\*\*/g, "")}
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {post.country && (
