@@ -283,6 +283,17 @@ export default function Index() {
       filtered = filtered.filter((post) => post.server === selectedServer);
     }
 
+    filtered.sort((a, b) => {
+      if (a.isTrend && b.isTrend) {
+        return (
+          (a.trendRank ?? Number.MAX_VALUE) - (b.trendRank ?? Number.MAX_VALUE)
+        );
+      }
+      if (a.isTrend) return -1;
+      if (b.isTrend) return 1;
+      return 0;
+    });
+
     setFilteredPosts(filtered);
     setCurrentPage(1);
   }, [posts, searchQuery, selectedCountry, selectedServer]);
@@ -481,7 +492,7 @@ export default function Index() {
                 <div className="flex items-center gap-2 sm:gap-3 mb-2">
                   <Flame className="w-7 h-7 sm:w-8 sm:h-8 text-orange-500" />
                   <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white">
-                    Results
+                    Trending
                   </h2>
                 </div>
                 <p className="text-[#979797] text-sm sm:text-base">
@@ -499,7 +510,12 @@ export default function Index() {
                   <div
                     key={post.id}
                     onClick={() => navigate(`/post/${post.id}`)}
-                    className="group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 animate-scaleUpFadeIn bg-[#1a1a1a] border border-[#666666] hover:border-[#0088CC] hover:shadow-2xl hover:shadow-[#0088CC]/20"
+                    className={cn(
+                      "group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-2 animate-scaleUpFadeIn border hover:shadow-2xl",
+                      post.isTrend
+                        ? "bg-gradient-to-br from-[#4a3a1a] via-[#3a2a1a] to-[#2a1a0a] border-[#9d7e1f] hover:border-[#ffd700] hover:shadow-[#ffd700]/20"
+                        : "bg-[#1a1a1a] border-[#666666] hover:border-[#0088CC] hover:shadow-[#0088CC]/20",
+                    )}
                     style={{ animationDelay: `${idx * 0.08}s` }}
                   >
                     {post.thumbnail && (
@@ -536,8 +552,8 @@ export default function Index() {
                           {post.title}
                         </h3>
                         {post.nsfw && (
-                          <span className="inline-flex items-center gap-1 bg-[#0088CC] text-white px-2.5 py-1 rounded-md text-xs font-bold flex-shrink-0 whitespace-nowrap">
-                            🔞
+                          <span className="inline-flex items-center gap-1 bg-red-600 text-white px-2.5 py-1 rounded-md text-xs font-bold flex-shrink-0 whitespace-nowrap">
+                            NSFW
                           </span>
                         )}
                       </div>

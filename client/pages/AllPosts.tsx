@@ -283,6 +283,17 @@ export default function AllPosts() {
       filtered = filtered.filter((post) => post.server === selectedServer);
     }
 
+    filtered.sort((a, b) => {
+      if (a.isTrend && b.isTrend) {
+        return (
+          (a.trendRank ?? Number.MAX_VALUE) - (b.trendRank ?? Number.MAX_VALUE)
+        );
+      }
+      if (a.isTrend) return -1;
+      if (b.isTrend) return 1;
+      return 0;
+    });
+
     setFilteredPosts(filtered);
     setCurrentPage(1);
   }, [posts, searchQuery, selectedCountry, selectedServer]);
@@ -495,7 +506,12 @@ export default function AllPosts() {
                   <div
                     key={post.id}
                     onClick={() => navigate(`/post/${post.id}`)}
-                    className="group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-1 animate-scaleUpFadeIn bg-[#1a1a1a] border border-[#666666] hover:border-[#0088CC] hover:shadow-xl hover:shadow-[#0088CC]/20"
+                    className={cn(
+                      "group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-1 animate-scaleUpFadeIn border hover:shadow-xl",
+                      post.isTrend
+                        ? "bg-gradient-to-br from-[#4a3a1a] via-[#3a2a1a] to-[#2a1a0a] border-[#9d7e1f] hover:border-[#ffd700] hover:shadow-[#ffd700]/20"
+                        : "bg-[#1a1a1a] border-[#666666] hover:border-[#0088CC] hover:shadow-[#0088CC]/20",
+                    )}
                     style={{ animationDelay: `${idx * 0.08}s` }}
                   >
                     {post.thumbnail && (
@@ -532,13 +548,13 @@ export default function AllPosts() {
                           {post.title}
                         </h3>
                         {post.nsfw && (
-                          <span className="inline-flex items-center gap-1 bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex-shrink-0 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1 bg-red-600 text-white px-2.5 py-1 rounded-md text-xs font-bold flex-shrink-0 whitespace-nowrap">
                             NSFW
                           </span>
                         )}
                       </div>
-                      <p className="text-sm line-clamp-3 mb-4 text-gray-400">
-                        {post.description}
+                      <p className="text-sm line-clamp-3 mb-4 text-[#979797]">
+                        {post.description.replace(/\*\*/g, "")}
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {post.country && (
