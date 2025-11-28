@@ -499,7 +499,7 @@ export default function Index() {
                     style={{ animationDelay: `${idx * 0.05}s` }}
                   >
                     {post.thumbnail && (
-                      <div className="w-full h-40 sm:h-48 bg-slate-700 overflow-hidden flex items-center justify-center relative">
+                      <div className="w-full h-40 sm:h-48 bg-gray-700 overflow-hidden flex items-center justify-center relative">
                         <img
                           src={post.thumbnail}
                           alt={post.title}
@@ -515,7 +515,7 @@ export default function Index() {
                               const errorDiv = document.createElement("div");
                               errorDiv.setAttribute("data-error-shown", "true");
                               errorDiv.className =
-                                "text-center text-gray-400 flex flex-col items-center justify-center gap-2";
+                                "text-center text-gray-500 flex flex-col items-center justify-center gap-2";
                               errorDiv.innerHTML =
                                 '<div class="text-4xl">🖼️</div><div class="text-xs">Image unavailable</div>';
                               parent.appendChild(errorDiv);
@@ -528,35 +528,35 @@ export default function Index() {
                     )}
                     <div className="p-4 sm:p-5">
                       <div className="flex items-start justify-between gap-2 mb-3">
-                        <h3 className="font-bold text-sm sm:text-base line-clamp-2 flex-1 text-white group-hover:text-blue-300 transition-colors">
+                        <h3 className="font-bold text-sm sm:text-base line-clamp-2 flex-1 text-white group-hover:text-gray-100 transition-colors">
                           {post.title}
                         </h3>
                         {post.nsfw && (
-                          <span className="inline-flex items-center gap-1 bg-red-700 text-white px-2.5 py-1 rounded-md text-xs font-bold flex-shrink-0 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1 bg-gray-600 text-white px-2.5 py-1 rounded-md text-xs font-bold flex-shrink-0 whitespace-nowrap">
                             🔞
                           </span>
                         )}
                       </div>
-                      <p className="text-xs sm:text-sm line-clamp-2 mb-4 text-gray-400">
+                      <p className="text-xs sm:text-sm line-clamp-2 mb-4 text-gray-500">
                         {post.description}
                       </p>
                       <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {post.country && (
-                          <span className="inline-flex items-center gap-0.5 px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-blue-600/25 text-blue-200 border border-blue-500/30">
+                          <span className="inline-flex items-center gap-0.5 px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gray-700 text-gray-300 border border-gray-600">
                             <GlobeIcon className="w-3 h-3" />
                             <span className="hidden sm:inline">{post.country}</span>
                             <span className="sm:hidden">{post.country.substring(0, 3)}</span>
                           </span>
                         )}
                         {post.city && (
-                          <span className="inline-flex items-center gap-0.5 px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-blue-600/25 text-blue-200 border border-blue-500/30">
+                          <span className="inline-flex items-center gap-0.5 px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gray-700 text-gray-300 border border-gray-600">
                             <MapPinIcon className="w-3 h-3" />
                             <span className="hidden sm:inline">{post.city}</span>
                             <span className="sm:hidden">{post.city.substring(0, 3)}</span>
                           </span>
                         )}
                         {post.server && (
-                          <span className="inline-flex items-center gap-0.5 px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-blue-600/25 text-blue-200 border border-blue-500/30">
+                          <span className="inline-flex items-center gap-0.5 px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gray-700 text-gray-300 border border-gray-600">
                             <ServerIcon className="w-3 h-3" />
                             <span className="hidden sm:inline">{post.server}</span>
                             <span className="sm:hidden">{post.server.substring(0, 3)}</span>
