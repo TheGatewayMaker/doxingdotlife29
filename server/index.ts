@@ -220,7 +220,7 @@ export function createServer() {
         return multerErrorHandler(error, req, res, next);
       }
     },
-    handleUpload,
+    asyncHandler(handleUpload),
   );
 
   app.get("/api/posts", handleGetPosts);
