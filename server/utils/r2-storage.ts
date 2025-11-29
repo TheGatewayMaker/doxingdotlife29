@@ -217,37 +217,54 @@ export const getPostMetadata = async (
 };
 
 export const listPostFiles = async (postId: string): Promise<string[]> => {
-  const client = getR2Client();
-  const bucketName = getBucketName();
-  const files: string[] = [];
+  try {
+    const client = getR2Client();
+    const bucketName = getBucketName();
+    const files: string[] = [];
 
-  let continuationToken: string | undefined;
+    let continuationToken: string | undefined;
 
-  do {
-    const response = await client.send(
-      new ListObjectsV2Command({
-        Bucket: bucketName,
-        Prefix: `posts/${postId}/`,
-        ContinuationToken: continuationToken,
-      }),
-    );
+    do {
+      try {
+        const response = await client.send(
+          new ListObjectsV2Command({
+            Bucket: bucketName,
+            Prefix: `posts/${postId}/`,
+            ContinuationToken: continuationToken,
+          }),
+        );
 
-    if (response.Contents) {
-      for (const obj of response.Contents) {
-        if (
-          obj.Key &&
-          obj.Key !== `posts/${postId}/metadata.json` &&
-          obj.Key !== `posts/${postId}/`
-        ) {
-          files.push(obj.Key.split("/").pop() || "");
+        if (response.Contents) {
+          for (const obj of response.Contents) {
+            if (
+              obj.Key &&
+              obj.Key !== `posts/${postId}/metadata.json` &&
+              obj.Key !== `posts/${postId}/`
+            ) {
+              files.push(obj.Key.split("/").pop() || "");
+            }
+          }
         }
+
+        continuationToken = response.NextContinuationToken;
+      } catch (pageError) {
+        const errorMsg = pageError instanceof Error ? pageError.message : String(pageError);
+        console.error(`Error listing files for post ${postId}:`, errorMsg);
+        throw pageError;
       }
-    }
+    } while (continuationToken);
 
-    continuationToken = response.NextContinuationToken;
-  } while (continuationToken);
-
-  return files.filter((f) => f);
+    return files.filter((f) => f);
+  } catch (error) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    console.error(
+      `Failed to list files for post ${postId}:`,
+      errorMsg,
+    );
+    throw new Error(
+      `Failed to list post files from R2 storage: ${errorMsg}`,
+    );
+  }
 };
 
 export const updateServersList = async (servers: string[]): Promise<void> => {
