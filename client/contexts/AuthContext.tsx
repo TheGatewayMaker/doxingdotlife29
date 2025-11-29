@@ -6,7 +6,12 @@ import {
   useEffect,
 } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { auth, signInWithGoogle, signOutUser, getIdToken } from "@/lib/firebase";
+import {
+  auth,
+  signInWithGoogle,
+  signOutUser,
+  getIdToken,
+} from "@/lib/firebase";
 
 interface AuthContextType {
   user: User | null;
