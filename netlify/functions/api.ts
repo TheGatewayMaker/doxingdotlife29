@@ -4,12 +4,29 @@ import { createServer } from "../../server";
 let app: any;
 let serverlessHandler: any;
 
+// Set NETLIFY flag immediately before any server initialization
+if (!process.env.NETLIFY) {
+  process.env.NETLIFY = "true";
+  console.log(
+    `[${new Date().toISOString()}] NETLIFY environment flag set to true`,
+  );
+}
+
 const getApp = () => {
   if (!app) {
     try {
       console.log(
         `[${new Date().toISOString()}] Initializing Express server...`,
       );
+      console.log("Environment check:", {
+        hasFirebaseProjectId: !!process.env.FIREBASE_PROJECT_ID,
+        hasR2AccessKeyId: !!process.env.R2_ACCESS_KEY_ID,
+        hasR2SecretAccessKey: !!process.env.R2_SECRET_ACCESS_KEY,
+        hasR2AccountId: !!process.env.R2_ACCOUNT_ID,
+        hasR2BucketName: !!process.env.R2_BUCKET_NAME,
+        hasAuthorizedEmails: !!process.env.VITE_AUTHORIZED_EMAILS,
+        nodeEnv: process.env.NODE_ENV,
+      });
       app = createServer();
       console.log(
         `[${new Date().toISOString()}] ✅ Express server initialized successfully`,
@@ -25,6 +42,7 @@ const getApp = () => {
         hasR2SecretAccessKey: !!process.env.R2_SECRET_ACCESS_KEY,
         hasR2AccountId: !!process.env.R2_ACCOUNT_ID,
         hasR2BucketName: !!process.env.R2_BUCKET_NAME,
+        hasAuthorizedEmails: !!process.env.VITE_AUTHORIZED_EMAILS,
       });
       throw error;
     }
