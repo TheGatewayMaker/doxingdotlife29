@@ -9,6 +9,33 @@ import {
 } from "../utils/r2-storage";
 import { Post } from "@shared/api";
 
+/**
+ * Validates file path to prevent directory traversal attacks
+ */
+const isValidFilePath = (filePath: string): boolean => {
+  if (!filePath || typeof filePath !== "string") {
+    return false;
+  }
+
+  // Check for path traversal attempts
+  if (
+    filePath.includes("..") ||
+    filePath.includes("/") ||
+    filePath.includes("\\")
+  ) {
+    return false;
+  }
+
+  // Check for null bytes
+  if (filePath.includes("\0")) {
+    return false;
+  }
+
+  // Check for special characters that could cause issues
+  const validPattern = /^[a-zA-Z0-9._\-]+$/;
+  return validPattern.test(filePath);
+};
+
 export const handleDeletePost: RequestHandler = async (req, res) => {
   try {
     const { postId } = req.params;
@@ -58,7 +85,11 @@ export const handleDeleteMediaFile: RequestHandler = async (req, res) => {
       return;
     }
 
-    if (fileName.includes("..") || fileName.includes("/")) {
+    // Validate both postId and fileName to prevent path traversal
+    if (!isValidFilePath(postId) || !isValidFilePath(fileName)) {
+      console.warn(
+        `Invalid path detected - postId: ${postId}, fileName: ${fileName}`,
+      );
       res.status(403).json({ error: "Invalid file path" });
       return;
     }
